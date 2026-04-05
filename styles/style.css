@@ -2,3 +2,18 @@
 Estilos globales del juego.
 Define fondo, canvas y posibles estilos de UI.
 */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #000;
+  overflow: hidden;
+}
+
+#gameCanvas {
+  display: block;
+}
