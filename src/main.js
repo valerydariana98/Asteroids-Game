@@ -21,13 +21,11 @@ function update() {
 
   checkRespawn(canvas.width, canvas.height);
 
-  // TODO (compañero/a): input, mover nave, mover balas, colisiones
 }
 
 function draw() {
   clearCanvas(ctx, canvas.width, canvas.height);
   drawAsteroids(ctx, gameState.asteroids);
-  // TODO (compañero/a): drawShip, drawBullets
 }
 
 function loop() {
