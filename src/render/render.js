@@ -4,12 +4,33 @@
  * Cada función recibe el contexto 2D y los datos necesarios del gameState.
  */
 
-// ─── Asteroides ───────────────────────────────────────────────────────────────
+export function render(ctx, gameState, canvas){
+  clearCanvas(ctx, canvas.width, canvas.height);
+
+  drawAsteroids(ctx, gameState.asteroids);
+  //drawPlayer(ctx, gameState.player);
+  //drawBullets(ctx, gameState.bullets);
+  //drawUI(ctx, gameState);
+}
+
+// Core 
 
 /**
- * Dibuja un único asteroide usando sus vértices locales.
- * Traslada el origen al centro del asteroide y traza el polígono.
- *
+ * Limpia el canvas y pinta el fondo negro.
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {number} width
+ * @param {number} height
+ */
+export function clearCanvas(ctx, width, height) {
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(0, 0, width, height);
+}
+
+// Asteroides
+
+/**
+ * Dibuja un unico asteroide usando sus vertices locales.
+ * Traslada el origen al centro del asteroide y traza el poligono.
  * @param {CanvasRenderingContext2D} ctx
  * @param {import('../entities/asteroid').Asteroid} asteroid
  */
@@ -36,28 +57,14 @@ export function drawAsteroid(ctx, asteroid) {
 
 /**
  * Dibuja todos los asteroides del array.
- *
  * @param {CanvasRenderingContext2D} ctx
  * @param {import('../entities/asteroid').Asteroid[]} asteroids
  */
 export function drawAsteroids(ctx, asteroids) {
+  if (!asteroids) return;
+  
   for (const asteroid of asteroids) {
     drawAsteroid(ctx, asteroid);
   }
 }
 
-// ─── Funciones para tu compañero/a ────────────────────────────────────────────
-// Agregar aquí: drawShip(ctx, ship) y drawBullets(ctx, bullets)
-// cuando estén listos player.js y bullet.js
-
-/**
- * Limpia el canvas y pinta el fondo negro.
- *
- * @param {CanvasRenderingContext2D} ctx
- * @param {number} width
- * @param {number} height
- */
-export function clearCanvas(ctx, width, height) {
-  ctx.fillStyle = '#000000';
-  ctx.fillRect(0, 0, width, height);
-}
