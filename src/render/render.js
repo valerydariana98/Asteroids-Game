@@ -23,40 +23,25 @@ export function clearCanvas(ctx, width, height) {
 // Player
 
 export function drawPlayer(ctx, player) {
-  const {x, y} = player;
+  const {x, y, angle} = player;
   
+  ctx.save();
+
+  ctx.translate(x, y);
+  ctx.rotate(angle);
+ 
   ctx.beginPath();
-
-  // punta arriba
-  ctx.moveTo(x, y - 20);
-
-  // esquina izquierda
-  ctx.lineTo(x - 15, y + 20);
-
-  // esquina derecha
-  ctx.lineTo(x + 15, y + 20);
-
-  ctx.closePath();
-
-  ctx.beginPath();
-
-  // punta arriba
-  ctx.moveTo(x, y - 20);
-
-  // esquina izquierda
-  ctx.lineTo(x - 15, y + 20);
-
-  // esquina derecha
-  ctx.lineTo(x + 15, y + 20);
-
+  ctx.moveTo(0, -30);
+  ctx.lineTo(-20, 30);
+  ctx.lineTo(20, 30);
   ctx.closePath();
 
   ctx.fillStyle = "white";
   ctx.fill();
-  
-  ctx.fillStyle = "white";
-  ctx.fill();
+
+  ctx.restore(); 
 }
+
 
 // Asteroides
 

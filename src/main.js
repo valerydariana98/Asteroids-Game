@@ -17,17 +17,27 @@ function update() {
     //console.log("entra update");
     //console.log(keys);
 
+    const player = gameState.player;
+
     if (keys["ArrowLeft"]) {
-        console.log("izquierda");
+        player.angle -= 0.05;
     }
 
     if (keys["ArrowRight"]) {
-        console.log("derecha");
+        player.angle += 0.05;
     }
 
-    if (keys["Space"]) {
-        console.log("disparar");
+    const TWO_PI = Math.PI * 2;
+
+    if (player.angle > TWO_PI) {
+        player.angle -= TWO_PI;
     }
+
+    if (player.angle < 0) {
+        player.angle += TWO_PI;
+    }
+    
+    console.log(player.angle);
     
     for (const ast of gameState.asteroids) {
         ast.x     += ast.vx;
