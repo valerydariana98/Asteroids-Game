@@ -1,4 +1,5 @@
 import { spawnAsteroides } from './systems/spawn.js';
+import { crearPlayer } from './entities/player.js';
 
 export const gameState = {
   asteroids: [],
@@ -14,7 +15,10 @@ export const gameState = {
 export function inicializarJuego(canvasW, canvasH) {
   gameState.asteroids = [];
   gameState.bullets   = [];
-  gameState.player    = {x: canvasW/2, y: canvasH/2, angle:0};
+  gameState.player = crearPlayer(
+  canvasW / 2,
+  canvasH / 2
+  );
   
   gameState.score     = 0;
   gameState.lives     = 3;
