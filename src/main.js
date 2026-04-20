@@ -20,24 +20,14 @@ function update() {
     const player = gameState.player;
 
     if (keys["ArrowLeft"]) {
-        player.angle -= 0.05;
+        player.angle -= player.rotationSpeed;
     }
 
     if (keys["ArrowRight"]) {
-        player.angle += 0.05;
-    }
-
-    const TWO_PI = Math.PI * 2;
-
-    if (player.angle > TWO_PI) {
-        player.angle -= TWO_PI;
-    }
-
-    if (player.angle < 0) {
-        player.angle += TWO_PI;
+        player.angle += player.rotationSpeed;
     }
     
-    console.log(player.angle);
+    //console.log(player.angle);
     
     for (const ast of gameState.asteroids) {
         ast.x     += ast.vx;
