@@ -11,6 +11,13 @@ export function render(ctx, gameState, canvas){
   drawPlayer(ctx, gameState.player);
   drawBullets(ctx, gameState.bullets);
   //drawUI(ctx, gameState);
+
+  if (!gameState.running) {
+    ctx.fillStyle = "white";
+    ctx.font = "40px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+  }
 }
 
 // Core 
@@ -72,7 +79,7 @@ export function drawAsteroid(ctx, asteroid) {
 
   ctx.save();
   ctx.translate(x, y);
-  ctx.rotate(angle);         // rotación visual acumulada cada frame
+  ctx.rotate(angle);         
 
   ctx.beginPath();
   ctx.moveTo(vertices[0].x, vertices[0].y);
