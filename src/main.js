@@ -4,6 +4,7 @@ import { render }                       from './render/render.js';
 import { checkRespawn }                 from './systems/spawn.js';
 import { initInput, keys }              from './systems/input.js';
 import { disparar }                     from './systems/shoot.js';
+import { checkBulletAsteroidCollision } from './systems/collision.js';
 
 const canvas = document.getElementById('gameCanvas');
 const ctx    = canvas.getContext('2d');
@@ -56,6 +57,7 @@ function update() {
     });
 
     checkRespawn(canvas.width, canvas.height);
+    checkBulletAsteroidCollision(gameState);
 }
 
 function loop() {
