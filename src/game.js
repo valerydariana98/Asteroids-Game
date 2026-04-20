@@ -3,8 +3,9 @@ import { crearPlayer } from './entities/player.js';
 
 export const gameState = {
   asteroids: [],
-  player: {x:0, y:0, angle:0},
+  player: null,
   bullets: [],
+  lastShotTime: 0,
 
   score:   0,
   lives:   3,
@@ -19,7 +20,7 @@ export function inicializarJuego(canvasW, canvasH) {
   canvasW / 2,
   canvasH / 2
   );
-  
+
   gameState.score     = 0;
   gameState.lives     = 3;
   gameState.running   = true;

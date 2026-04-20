@@ -9,7 +9,7 @@ export function render(ctx, gameState, canvas){
 
   drawAsteroids(ctx, gameState.asteroids);
   drawPlayer(ctx, gameState.player);
-  //drawBullets(ctx, gameState.bullets);
+  drawBullets(ctx, gameState.bullets);
   //drawUI(ctx, gameState);
 }
 
@@ -42,6 +42,28 @@ export function drawPlayer(ctx, player) {
   ctx.restore(); 
 }
 
+// Bullets
+export function drawBullets(ctx, bullets) {
+  for (const bullet of bullets) {
+
+    ctx.save();
+
+    ctx.translate(bullet.x, bullet.y);
+    ctx.rotate(bullet.angle);
+
+    ctx.beginPath();
+
+
+    ctx.moveTo(-bullet.length / 2, 0);
+    ctx.lineTo(bullet.length / 2,0);
+
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.restore();
+  }
+}
 
 // Asteroides
 
@@ -67,8 +89,6 @@ export function drawAsteroid(ctx, asteroid) {
 }
 
 export function drawAsteroids(ctx, asteroids) {
-  if (!asteroids) return;
-  
   for (const asteroid of asteroids) {
     drawAsteroid(ctx, asteroid);
   }
