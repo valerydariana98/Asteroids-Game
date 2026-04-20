@@ -11,6 +11,8 @@ export const gameState = {
   lives:   3,
   running: false,
   startTime: null,
+  playerHitTime: 0,
+  invulnerableTime: 1000
 };
 
 export function inicializarJuego(canvasW, canvasH) {
@@ -25,6 +27,8 @@ export function inicializarJuego(canvasW, canvasH) {
   gameState.lives     = 3;
   gameState.running   = true;
   gameState.startTime = Date.now();
+  gameState.lastShotTime = 0;
+  gameState.playerHitTime = 0;
 
   spawnAsteroides(canvasW, canvasH, 8);
 }

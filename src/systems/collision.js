@@ -49,3 +49,34 @@ export function checkBulletAsteroidCollision(gameState) {
   gameState.asteroids = newAsteroids;
   gameState.bullets = newBullets;
 }
+
+export function checkPlayerAsteroidCollision(gameState) {
+  const player = gameState.player;
+  const asteroids = gameState.asteroids;
+
+  const now = Date.now();
+
+  if (now - gameState.playerHitTime < gameState.invulnerableTime) {
+    return;
+  }
+
+  const playerRadius = 20;
+
+  for (const asteroid of asteroids) {
+
+    const dx = player.x - asteroid.x;
+    const dy = player.y - asteroid.y;
+
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < playerRadius + asteroid.radius) {
+
+      gameState.lives = Math.max(0, gameState.lives - 1);
+      gameState.playerHitTime = now;
+
+      console.log("player golpeado");
+
+      return;
+    }
+  }
+}

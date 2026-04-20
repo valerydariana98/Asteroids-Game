@@ -5,6 +5,7 @@ import { checkRespawn }                 from './systems/spawn.js';
 import { initInput, keys }              from './systems/input.js';
 import { disparar }                     from './systems/shoot.js';
 import { checkBulletAsteroidCollision } from './systems/collision.js';
+import { checkPlayerAsteroidCollision } from './systems/collision.js';
 
 const canvas = document.getElementById('gameCanvas');
 const ctx    = canvas.getContext('2d');
@@ -30,7 +31,7 @@ function update() {
     }
 
     if (keys["Space"]) {
-    disparar(gameState);
+        disparar(gameState);
     }
 
     //console.log(player.angle);
@@ -43,8 +44,8 @@ function update() {
     }
 
     for (const bullet of gameState.bullets) {
-    bullet.x += bullet.vx;
-    bullet.y += bullet.vy;
+        bullet.x += bullet.vx;
+        bullet.y += bullet.vy;
     }
 
     gameState.bullets = gameState.bullets.filter(bullet => {
@@ -56,12 +57,25 @@ function update() {
     );
     });
 
-    checkRespawn(canvas.width, canvas.height);
     checkBulletAsteroidCollision(gameState);
+    checkPlayerAsteroidCollision(gameState);
+    checkRespawn(canvas.width, canvas.height);
+
+    if (gameState.lives <= 0) {
+        gameState.running = false;
+        gameState.lives = 0;
+    }
 }
 
 function loop() {
     //console.log("loop funciona"); //debug
+    
+    if (!gameState.running) {
+        //console.log("GAME OVER");
+        render(ctx, gameState, canvas);
+        return;
+    }
+
     update();
     render(ctx, gameState, canvas);
     requestAnimationFrame(loop);
