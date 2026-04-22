@@ -4,14 +4,13 @@
  * Cada función recibe el contexto 2D y los datos necesarios del gameState.
  */
 
-// Reemplaza la función render existente
 export function render(ctx, gameState, canvas) {
   clearCanvas(ctx, canvas.width, canvas.height);
 
   drawAsteroids(ctx, gameState.asteroids);
   drawBullets(ctx, gameState.bullets);
-  drawPlayerWithBlink(ctx, gameState);  // ← reemplaza drawPlayer
-  drawHUD(ctx, gameState);              // ← HUD con score y vidas
+  drawPlayerWithBlink(ctx, gameState);  
+  drawHUD(ctx, gameState); 
 
   if (!gameState.running) {
     drawGameOver(ctx, gameState, canvas);
@@ -100,32 +99,26 @@ export function drawAsteroids(ctx, asteroids) {
 }
 
 
-// ── Agrega estas funciones al final del archivo ──────────────────────────
 
-// Reemplaza drawPlayer con versión que parpadea al ser golpeado
 function drawPlayerWithBlink(ctx, gameState) {
   const now = Date.now();
   const elapsed = now - gameState.playerHitTime;
   const isInvulnerable = elapsed < gameState.invulnerableTime;
 
   if (isInvulnerable) {
-    // Parpadeo: alterna visibilidad cada 150ms
     const blink = Math.floor(elapsed / 150) % 2 === 0;
-    if (!blink) return; // frame invisible → skip
+    if (!blink) return;
   }
 
   drawPlayer(ctx, gameState.player);
 }
 
-// HUD: score arriba-izquierda, vidas como íconos de nave
 function drawHUD(ctx, gameState) {
-  // Score
   ctx.fillStyle = "white";
   ctx.font = "16px monospace";
   ctx.textAlign = "left";
   ctx.fillText(`SCORE: ${gameState.score}`, 20, 30);
 
-  // Íconos de vida (pequeñas naves)
   const maxLives = 3;
   const iconSize = 10;
   const spacing = 28;
@@ -151,12 +144,10 @@ function drawHUD(ctx, gameState) {
   }
 }
 
-// Pantalla Game Over mejorada
 function drawGameOver(ctx, gameState, canvas) {
   const cx = canvas.width / 2;
   const cy = canvas.height / 2;
 
-  // Fondo semitransparente
   ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 

@@ -62,7 +62,6 @@ export function fragmentarAsteroide(asteroid, index) {
   if (asteroid.size === "grande") {
     const fragmentSize = elapsed >= 30 ? "mediano" : "pequeno";
 
-    // Separar los fragmentos en direcciones opuestas
     const offset = asteroid.radius * 0.6;
     const angle = Math.random() * Math.PI * 2;
 
@@ -77,7 +76,6 @@ export function fragmentarAsteroide(asteroid, index) {
       fragmentSize,
     );
 
-    // Heredar velocidad del padre + impulso propio
     frag1.vx += asteroid.vx;
     frag1.vy += asteroid.vy;
     frag2.vx += asteroid.vx;

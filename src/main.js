@@ -19,7 +19,6 @@ initInput();
 function update() {
   const player = gameState.player;
 
-  // Rotación
   if (keys["ArrowLeft"]) {
     player.angle -= player.rotationSpeed;
   }
@@ -27,14 +26,11 @@ function update() {
     player.angle += player.rotationSpeed;
   }
 
-  // ← NUEVO: empuje hacia adelante
   if (keys["ArrowUp"]) {
     const thrust = 0.2;
     player.vx += Math.cos(player.angle - Math.PI / 2) * thrust;
     player.vy += Math.sin(player.angle - Math.PI / 2) * thrust;
   }
-
-  // ← NUEVO: aplicar velocidad + fricción + wrap
   player.vx *= 0.98;
   player.vy *= 0.98;
   player.x += player.vx;
@@ -45,15 +41,12 @@ function update() {
     disparar(gameState);
   }
 
-  // Asteroides (sin cambios)
   for (const ast of gameState.asteroids) {
     ast.x += ast.vx;
     ast.y += ast.vy;
     ast.angle += ast.rotationSpeed;
     wrapPosicion(ast, canvas.width, canvas.height);
   }
-
-  // Balas (sin cambios)
   for (const bullet of gameState.bullets) {
     bullet.x += bullet.vx;
     bullet.y += bullet.vy;
@@ -78,10 +71,8 @@ function update() {
 }
 
 function loop() {
-  //console.log("loop funciona"); //debug
 
   if (!gameState.running) {
-    //console.log("GAME OVER");
     render(ctx, gameState, canvas);
     return;
   }

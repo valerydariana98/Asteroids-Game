@@ -6,7 +6,7 @@ export function checkBulletAsteroidCollision(gameState) {
 
   const newBullets = [];
   const destroyedIndexes = new Set();
-  const hitBullets = new Set(); // ← rastrear balas que impactaron
+  const hitBullets = new Set();
 
   for (let i = 0; i < asteroids.length; i++) {
     const asteroid = asteroids[i];
@@ -19,20 +19,18 @@ export function checkBulletAsteroidCollision(gameState) {
 
       if (distance < bullet.radius + asteroid.radius) {
         destroyedIndexes.add(i);
-        hitBullets.add(j); // ← marcar bala por índice
+        hitBullets.add(j);
         gameState.score += 10;
         break;
       }
     }
   }
 
-  // Fragmentar asteroides en orden inverso
   const sortedIndexes = [...destroyedIndexes].sort((a, b) => b - a);
   for (const index of sortedIndexes) {
     fragmentarAsteroide(asteroids[index], index);
   }
 
-  // Filtrar balas: solo conservar las que NO impactaron
   for (let j = 0; j < bullets.length; j++) {
     if (!hitBullets.has(j)) {
       newBullets.push(bullets[j]);
@@ -72,11 +70,9 @@ export function checkPlayerAsteroidCollision(gameState) {
 function respawnPlayer(gameState) {
   const player = gameState.player;
 
-  // Volver al centro del canvas
   player.x = gameState.canvasW / 2;
   player.y = gameState.canvasH / 2;
 
-  // Detener completamente la nave
   player.vx = 0;
   player.vy = 0;
   player.angle = 0;
