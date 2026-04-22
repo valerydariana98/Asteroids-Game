@@ -16,6 +16,8 @@ export const gameState = {
   invulnerableTime: 2000,
   canvasW: 0,
   canvasH: 0,
+  enteringName: false,
+  playerName: "",
 };
 
 export function inicializarJuego(canvasW, canvasH) {
