@@ -1,5 +1,5 @@
-import { spawnAsteroides } from './systems/spawn.js';
-import { crearPlayer } from './entities/player.js';
+import { spawnAsteroides } from "./systems/spawn.js";
+import { crearPlayer } from "./entities/player.js";
 
 export const gameState = {
   asteroids: [],
@@ -7,25 +7,27 @@ export const gameState = {
   bullets: [],
   lastShotTime: 0,
 
-  score:   0,
-  lives:   3,
+  score: 0,
+  lives: 3,
   running: false,
+  gameOver: false,
   startTime: null,
   playerHitTime: 0,
-  invulnerableTime: 1000
+  invulnerableTime: 2000,
+  canvasW: 0,
+  canvasH: 0,
 };
 
 export function inicializarJuego(canvasW, canvasH) {
+  gameState.canvasW = canvasW; // ← agregar
+  gameState.canvasH = canvasH; // ← agregar
   gameState.asteroids = [];
-  gameState.bullets   = [];
-  gameState.player = crearPlayer(
-  canvasW / 2,
-  canvasH / 2
-  );
-
-  gameState.score     = 0;
-  gameState.lives     = 3;
-  gameState.running   = true;
+  gameState.bullets = [];
+  gameState.player = crearPlayer(canvasW / 2, canvasH / 2);
+  gameState.score = 0;
+  gameState.lives = 3;
+  gameState.running = true;
+  gameState.gameOver = false;
   gameState.startTime = Date.now();
   gameState.lastShotTime = 0;
   gameState.playerHitTime = 0;
