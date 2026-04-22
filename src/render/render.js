@@ -4,18 +4,17 @@
  * Cada función recibe el contexto 2D y los datos necesarios del gameState.
  */
 
-export function render(ctx, gameState, canvas){
+// Reemplaza la función render existente
+export function render(ctx, gameState, canvas) {
   clearCanvas(ctx, canvas.width, canvas.height);
 
   drawAsteroids(ctx, gameState.asteroids);
-  drawPlayer(ctx, gameState.player);
   drawBullets(ctx, gameState.bullets);
+  drawPlayerWithBlink(ctx, gameState);  // ← reemplaza drawPlayer
+  drawHUD(ctx, gameState);              // ← HUD con score y vidas
 
   if (!gameState.running) {
-    ctx.fillStyle = "white";
-    ctx.font = "40px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+    drawGameOver(ctx, gameState, canvas);
   }
 }
 
@@ -100,3 +99,78 @@ export function drawAsteroids(ctx, asteroids) {
   }
 }
 
+
+// ── Agrega estas funciones al final del archivo ──────────────────────────
+
+// Reemplaza drawPlayer con versión que parpadea al ser golpeado
+function drawPlayerWithBlink(ctx, gameState) {
+  const now = Date.now();
+  const elapsed = now - gameState.playerHitTime;
+  const isInvulnerable = elapsed < gameState.invulnerableTime;
+
+  if (isInvulnerable) {
+    // Parpadeo: alterna visibilidad cada 150ms
+    const blink = Math.floor(elapsed / 150) % 2 === 0;
+    if (!blink) return; // frame invisible → skip
+  }
+
+  drawPlayer(ctx, gameState.player);
+}
+
+// HUD: score arriba-izquierda, vidas como íconos de nave
+function drawHUD(ctx, gameState) {
+  // Score
+  ctx.fillStyle = "white";
+  ctx.font = "16px monospace";
+  ctx.textAlign = "left";
+  ctx.fillText(`SCORE: ${gameState.score}`, 20, 30);
+
+  // Íconos de vida (pequeñas naves)
+  const maxLives = 3;
+  const iconSize = 10;
+  const spacing = 28;
+  const startX = 20;
+  const startY = 55;
+
+  for (let i = 0; i < maxLives; i++) {
+    const x = startX + i * spacing;
+    const alive = i < gameState.lives;
+
+    ctx.save();
+    ctx.translate(x + iconSize, startY);
+
+    ctx.beginPath();
+    ctx.moveTo(0, -iconSize);
+    ctx.lineTo(-iconSize * 0.65, iconSize * 0.8);
+    ctx.lineTo(iconSize * 0.65, iconSize * 0.8);
+    ctx.closePath();
+
+    ctx.fillStyle = alive ? "white" : "rgba(255,255,255,0.15)";
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+// Pantalla Game Over mejorada
+function drawGameOver(ctx, gameState, canvas) {
+  const cx = canvas.width / 2;
+  const cy = canvas.height / 2;
+
+  // Fondo semitransparente
+  ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.textAlign = "center";
+
+  ctx.fillStyle = "white";
+  ctx.font = "bold 48px monospace";
+  ctx.fillText("GAME OVER", cx, cy - 30);
+
+  ctx.font = "20px monospace";
+  ctx.fillStyle = "#aaaaaa";
+  ctx.fillText(`SCORE FINAL: ${gameState.score}`, cx, cy + 15);
+
+  ctx.font = "14px monospace";
+  ctx.fillStyle = "#666666";
+  ctx.fillText("[ ENTER ]  reiniciar", cx, cy + 55);
+}

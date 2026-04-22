@@ -92,3 +92,10 @@ function loop() {
 }
 
 loop();
+
+document.addEventListener("keydown", (e) => {
+  if (e.code === "Enter" && !gameState.running) {
+    inicializarJuego(canvas.width, canvas.height);
+    loop();
+  }
+});
