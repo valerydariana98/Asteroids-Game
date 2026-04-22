@@ -10,7 +10,6 @@ export function render(ctx, gameState, canvas){
   drawAsteroids(ctx, gameState.asteroids);
   drawPlayer(ctx, gameState.player);
   drawBullets(ctx, gameState.bullets);
-  //drawUI(ctx, gameState);
 
   if (!gameState.running) {
     ctx.fillStyle = "white";
