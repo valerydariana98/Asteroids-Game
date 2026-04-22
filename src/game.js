@@ -16,11 +16,13 @@ export const gameState = {
   invulnerableTime: 2000,
   canvasW: 0,
   canvasH: 0,
+  enteringName: false,
+  playerName: "",
 };
 
 export function inicializarJuego(canvasW, canvasH) {
-  gameState.canvasW = canvasW; // ← agregar
-  gameState.canvasH = canvasH; // ← agregar
+  gameState.canvasW = canvasW;
+  gameState.canvasH = canvasH; 
   gameState.asteroids = [];
   gameState.bullets = [];
   gameState.player = crearPlayer(canvasW / 2, canvasH / 2);
