@@ -3,6 +3,7 @@
  * Centraliza todo el dibujado del juego en el canvas.
  * Cada función recibe el contexto 2D y los datos necesarios del gameState.
  */
+import { getHighscores } from "../utils/scores.js";
 
 export function render(ctx, gameState, canvas) {
   clearCanvas(ctx, canvas.width, canvas.height);
@@ -148,20 +149,73 @@ function drawGameOver(ctx, gameState, canvas) {
   const cx = canvas.width / 2;
   const cy = canvas.height / 2;
 
-  ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+  ctx.fillStyle = "rgba(0,0,0,0.65)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
   ctx.textAlign = "center";
 
-  ctx.fillStyle = "white";
-  ctx.font = "bold 48px monospace";
-  ctx.fillText("GAME OVER", cx, cy - 30);
+  if (gameState.enteringName) {
+    ctx.fillStyle = "white";
+    ctx.font = "bold 36px monospace";
+    ctx.fillText("¡NUEVO HIGHSCORE!", cx, cy - 60);
 
-  ctx.font = "20px monospace";
-  ctx.fillStyle = "#aaaaaa";
-  ctx.fillText(`SCORE FINAL: ${gameState.score}`, cx, cy + 15);
+    ctx.font = "20px monospace";
+    ctx.fillStyle = "#aaaaaa";
+    ctx.fillText(`SCORE: ${gameState.score}`, cx, cy - 20);
 
-  ctx.font = "14px monospace";
-  ctx.fillStyle = "#666666";
-  ctx.fillText("[ ENTER ]  reiniciar", cx, cy + 55);
+    ctx.font = "16px monospace";
+    ctx.fillStyle = "#666";
+    ctx.fillText("ingresa tu nombre:", cx, cy + 20);
+
+    const inputText = gameState.playerName + (Date.now() % 800 < 400 ? "|" : " ");
+    ctx.fillStyle = "white";
+    ctx.font = "bold 28px monospace";
+    ctx.fillText(inputText, cx, cy + 60);
+
+    ctx.font = "13px monospace";
+    ctx.fillStyle = "#555";
+    ctx.fillText("[ ENTER ] confirmar", cx, cy + 100);
+
+  } else {
+
+    ctx.fillStyle = "white";
+    ctx.font = "bold 48px monospace";
+    ctx.fillText("GAME OVER", cx, cy - 80);
+
+    ctx.font = "18px monospace";
+    ctx.fillStyle = "#aaaaaa";
+    ctx.fillText(`SCORE: ${gameState.score}`, cx, cy - 45);
+
+    drawHighscores(ctx, cx, cy);
+
+    ctx.font = "13px monospace";
+    ctx.fillStyle = "#555";
+    ctx.fillText("[ ENTER ] reiniciar", cx, cy + 130);
+  }
+}
+
+function drawHighscores(ctx, cx, cy) {
+  const scores = getHighscores();
+
+  ctx.font = "bold 16px monospace";
+  ctx.fillStyle = "#ffcc00";
+  ctx.fillText("— HIGHSCORES —", cx, cy + 10);
+
+  if (scores.length === 0) {
+    ctx.font = "14px monospace";
+    ctx.fillStyle = "#555";
+    ctx.fillText("sin records aún", cx, cy + 40);
+    return;
+  }
+
+  const medals = [1, 2, 3];
+
+  scores.forEach((entry, i) => {
+    const y = cy + 40 + i * 28;
+    ctx.font = "15px monospace";
+    ctx.fillStyle = i === 0 ? "#ffcc00" : "#aaaaaa";
+    ctx.fillText(
+      `${medals[i]}  ${entry.name.padEnd(10)}  ${entry.score}`,
+      cx, y
+    );
+  });
 }
